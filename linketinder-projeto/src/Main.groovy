@@ -1,3 +1,14 @@
+import DAO.CompetenciaCandidatoDAO
+import DAO.CompetenciaDAO
+import DAO.CompetenciaVagaDAO
+import DAO.CurtidasCandidatoDAO
+import DAO.CurtidasEmpresaDAO
+import DAO.MatchDAO
+import Utils.Validacao
+import Utils.Menu
+import Model.Candidato
+import Model.Vaga
+import Model.Empresa
 
 // SOPHIA SOUSA-AGUIAR LUNA
 
