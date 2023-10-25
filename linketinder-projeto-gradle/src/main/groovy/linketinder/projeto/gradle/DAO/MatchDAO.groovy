@@ -1,4 +1,6 @@
 package linketinder.projeto.gradle.DAO
+
+import linketinder.projeto.gradle.Model.Match
 import linketinder.projeto.gradle.Utils.ConexaoBD
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -116,19 +118,21 @@ class MatchDAO {
         }
     }
 
-    static void listar(){
+    static LinkedList<Match> listar(){
 
         String buscar="SELECT * FROM Matches"
+
+        LinkedList<Match> listaMatches = new LinkedList<Match>()
 
         try{
 
             Connection conn= ConexaoBD.conectar()
-            PreparedStatement match=conn.prepareStatement(
+            PreparedStatement matches=conn.prepareStatement(
                     buscar,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
             )
-            ResultSet result=match.executeQuery()
+            ResultSet result=matches.executeQuery()
 
             result.last()
             int quantidade=result.getRow()
@@ -136,17 +140,17 @@ class MatchDAO {
 
             if(quantidade>0){
 
-                println("Listando todos os macthes...\n")
-
-                while(result.next()){
-                    println("\n\nCPF do candidato: " + result.getString(1))
-                    println("CNPJ da empresa: " + result.getString(2))
+                while (result.next()){
+                    Match match = new Match(result.getString(1), result.getString(2))
+                    listaMatches.add(match)
                 }
-                ConexaoBD.desconectar(conn)
 
             }else{
-                println("Nenhuma match cadastrado.")
+                println("Nenhum match cadastrado.")
             }
+
+            ConexaoBD.desconectar(conn)
+            return listaMatches
 
         }catch(Exception e){
 
@@ -154,4 +158,5 @@ class MatchDAO {
             println("Erro ao buscar matches.")
         }
     }
+
 }

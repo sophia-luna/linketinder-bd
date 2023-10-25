@@ -119,10 +119,11 @@ class EmpresaDAO {
         }
     }
 
-    static void listar(){
+    static LinkedList<Empresa> listar(){
 
         String buscar="SELECT * FROM Empresas"
 
+        LinkedList<Empresa> listaEmpresas = new LinkedList<Empresa>()
         try{
 
             Connection conn= ConexaoBD.conectar()
@@ -142,19 +143,16 @@ class EmpresaDAO {
                 println("Listando todas as empresas...\n")
 
                 while(result.next()){
-                    println("\n\nNome: " + result.getString(1))
-                    println("CNPJ: " + result.getString(2))
-                    println("Email: " + result.getString(3))
-                    println("Senha: " + result.getString(4))
-                    println("Descrição da Empresa: " + result.getString(5))
-                    println("País: " + result.getString(6))
-                    println("CEP: " + result.getString(7))
+                    Empresa empresa = new Empresa(result.getString(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getString(6), result.getString(7) )
+                    listaEmpresas.add(empresa)
                 }
-                ConexaoBD.desconectar(conn)
 
             }else{
                 println("Nenhuma empresa cadastrada.")
             }
+
+            ConexaoBD.desconectar(conn)
+            return listaEmpresas
 
         }catch(Exception e){
 

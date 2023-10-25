@@ -116,9 +116,11 @@ class VagaDAO {
         }
     }
 
-    static void listar(){
+    static LinkedList<Vaga> listar(){
 
         String buscar="SELECT * FROM Vagas"
+
+        LinkedList<Vaga> listaVagas = new LinkedList<Vaga>()
 
         try{
 
@@ -136,21 +138,17 @@ class VagaDAO {
 
             if(quantidade>0){
 
-                println("Listando todas as vagas...\n")
-
                 while(result.next()){
-                    println("\n\nNome: " + result.getString(1))
-                    println("ID: " + result.getString(2))
-                    println("Descrição da vaga: " + result.getString(3))
-                    println("Estado: " + result.getString(4))
-                    println("Cidade: " + result.getString(5))
-                    println("CNPJ da empresa: " + result.getString(6))
+                    Vaga vaga = new Vaga(result.getString(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getString(6),)
+                    listaVagas.add(vaga)
                 }
-                ConexaoBD.desconectar(conn)
 
             }else{
                 println("Nenhuma vaga cadastrada.")
             }
+
+            ConexaoBD.desconectar(conn)
+            return listaVagas
 
         }catch(Exception e){
 
@@ -159,7 +157,7 @@ class VagaDAO {
         }
     }
 
-    static void deletarPorEmpresa(cnpj){
+    static void deletarPorEmpresa(String cnpj){
 
         String buscar="SELECT id FROM Vagas WHERE cnpj_empresa=?"
 

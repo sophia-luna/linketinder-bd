@@ -3,17 +3,14 @@
  */
 package linketinder.projeto.gradle
 
-import linketinder.projeto.gradle.DAO.CompetenciaCandidatoDAO
-import linketinder.projeto.gradle.DAO.CompetenciaDAO
-import linketinder.projeto.gradle.DAO.CompetenciaVagaDAO
 import linketinder.projeto.gradle.DAO.CurtidasCandidatoDAO
 import linketinder.projeto.gradle.DAO.CurtidasEmpresaDAO
-import linketinder.projeto.gradle.DAO.MatchDAO
-
+import linketinder.projeto.gradle.UI.CandidatoUI
+import linketinder.projeto.gradle.UI.CompetenciaUI
+import linketinder.projeto.gradle.UI.EmpresaUI
+import linketinder.projeto.gradle.UI.MatchUI
+import linketinder.projeto.gradle.UI.VagaUI
 import linketinder.projeto.gradle.Utils.Menu
-import linketinder.projeto.gradle.Model.Candidato
-import linketinder.projeto.gradle.Model.Vaga
-import linketinder.projeto.gradle.Model.Empresa
 
 // SOPHIA SOUSA-AGUIAR LUNA
 class App{
@@ -28,84 +25,82 @@ class App{
             switch (i) {
                 case 1:
 
-                    Candidato.criar()
+                    CandidatoUI.criar()
                     break
 
                 case 2:
 
-                    Candidato.alterar()
+                    CandidatoUI.alterar()
                     break
 
                 case 3:
 
-                    Candidato.deletar()
+                    CandidatoUI.deletar()
                     break
 
                 case 4:
 
-                    Candidato.listar()
+                    CandidatoUI.listar()
                     break
 
                 case 5:
 
-                    Empresa.criar()
+                    EmpresaUI.criar()
                     break
 
                 case 6:
 
-                    Empresa.alterar()
+                    EmpresaUI.alterar()
                     break
 
                 case 7:
 
-                    Empresa.deletar()
+                    EmpresaUI.deletar()
                     break
 
                 case 8:
 
-                    Empresa.listar()
+                    EmpresaUI.listar()
                     break
 
                 case 9:
 
-                    Vaga.criar()
+                    VagaUI.criar()
                     break
 
                 case 10:
 
-                    Vaga.alterar()
+                    VagaUI.alterar()
                     break
 
                 case 11:
 
-                    Vaga.deletar()
+                    VagaUI.deletar()
                     break
 
                 case 12:
 
-                    Vaga.listar()
+                    VagaUI.listar()
                     break
 
                 case 13:
 
-                    CompetenciaDAO.cadastrar()
+                    CompetenciaUI.cadastrar()
                     break
 
                 case 14:
 
-                    CompetenciaCandidatoDAO.cadastrar()
+                    CompetenciaUI.cadastrarCompetenciaCandidato()
                     break
 
                 case 15:
 
-                    CompetenciaVagaDAO.cadastrar()
+                    CompetenciaUI.cadastrarCompetenciaVaga()
                     break
 
                 case 16:
 
-                    println("Insira o nome da competencia que deseja deletar: ")
-                    String nome=System.in.newReader().readLine()
-                    CompetenciaDAO.deletar(nome)
+                    CompetenciaUI.deletar()
                     break
 
                 case 17:
@@ -132,7 +127,7 @@ class App{
 
                 case 19:
 
-                    MatchDAO.listar()
+                    MatchUI.listar()
                     break
 
                 case 20:
@@ -150,3 +145,5 @@ class App{
     }
 
 }
+
+

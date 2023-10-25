@@ -6,16 +6,7 @@ import java.sql.ResultSet
 
 class CompetenciaVagaDAO {
 
-    static void cadastrar(){
-
-        String buscarCompetencia="SELECT * FROM Competencias WHERE nome=?"
-        String buscarVaga="SELECT * FROM Vagas WHERE id=?"
-
-        print("Nome da competencia: ")
-        String nome=System.in.newReader().readLine()
-
-        print("ID da vaga: ")
-        String id=System.in.newReader().readLine()
+    static void cadastrar(String nome, String id){
 
         String inserir="INSERT INTO Competencia_empresa(nome_competencia, id_vaga) VALUES (?, ?)"
 
@@ -23,47 +14,16 @@ class CompetenciaVagaDAO {
 
             Connection conn=ConexaoBD.conectar()
 
-            PreparedStatement competencia=conn.prepareStatement(
-                    buscarCompetencia,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY
-            )
-            competencia.setString(1, nome)
-            ResultSet result=competencia.executeQuery()
+            PreparedStatement salvar = conn.prepareStatement(inserir)
+            salvar.setString(1, nome)
+            salvar.setString(2, id)
 
-            result.last()
-            int quantidade=result.getRow()
-            result.beforeFirst()
+            salvar.executeUpdate()
+            salvar.close()
 
-            PreparedStatement vaga=conn.prepareStatement(
-                    buscarVaga,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY
-            )
-            vaga.setString(1, id)
-            ResultSet res=vaga.executeQuery()
+            ConexaoBD.desconectar(conn)
+            println("A competencia $nome foi inserida para a vaga escolhida.")
 
-            res.last()
-            int quant=res.getRow()
-            res.beforeFirst()
-
-            if(quantidade && quant){
-
-                PreparedStatement salvar = conn.prepareStatement(inserir)
-                salvar.setString(1, nome)
-                salvar.setString(2, id)
-
-                salvar.executeUpdate()
-                salvar.close()
-                ConexaoBD.desconectar(conn)
-                println("A competencia $nome foi inserida para a vaga escolhida.")
-
-            }else{
-                println("Vaga e/ou competencia não encontrada(s).")
-                println(quantidade)
-                println(quant)
-
-            }
 
         }catch (Exception e){
 
@@ -72,7 +32,7 @@ class CompetenciaVagaDAO {
         }
     }
 
-    static void deletarPorNome(nome){
+    static void deletarPorNome(String nome){
 
         String buscar="SELECT * FROM Competencia_empresa WHERE nome_competencia=?"
         String deletar="DELETE FROM Competencia_empresa WHERE nome_competencia=?"
@@ -115,7 +75,7 @@ class CompetenciaVagaDAO {
 
     }
 
-    static void deletarPorVaga(id){
+    static void deletarPorVaga(String id){
 
         String buscar="SELECT * FROM Competencia_empresa WHERE id_vaga=?"
         String deletar="DELETE FROM Competencia_empresa WHERE id_vaga=?"

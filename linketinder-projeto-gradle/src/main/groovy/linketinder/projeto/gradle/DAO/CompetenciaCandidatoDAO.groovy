@@ -9,61 +9,24 @@ import java.sql.ResultSet
 
 class CompetenciaCandidatoDAO {
 
-    static void cadastrar(){
+    static void cadastrar(String nome, String cpf){
 
-        String buscarCompetencia="SELECT * FROM Competencias WHERE nome=?"
-        String buscarCandidato="SELECT * FROM Candidatos WHERE cpf=?"
-
-        print("Nome da competencia: ")
-        String nome=System.in.newReader().readLine()
-
-        print("CPF do candidato: ")
-        String cpf=System.in.newReader().readLine()
-
-        String inserir="INSERT INTO Competencia_candidato(nome_competencia, cpf_candidato) VALUES (?, ?)"
+        String inserir = "INSERT INTO Competencia_candidato(nome_competencia, cpf_candidato) VALUES (?, ?)"
 
         try{
 
             Connection conn= ConexaoBD.conectar()
 
-            PreparedStatement buscarComp=conn.prepareStatement(
-                    buscarCompetencia,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY
-            )
-            buscarComp.setString(1, nome)
-            ResultSet result=buscarComp.executeQuery()
+            PreparedStatement salvar = conn.prepareStatement(inserir)
+            salvar.setString(1, nome)
+            salvar.setString(2, cpf)
 
-            result.last()
-            int quantidade=result.getRow()
-            result.beforeFirst()
+            salvar.executeUpdate()
+            salvar.close()
 
-            PreparedStatement buscarCand=conn.prepareStatement(
-                    buscarCandidato,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY
-            )
-            buscarCand.setString(1, cpf)
-            ResultSet res=buscarCand.executeQuery()
+            ConexaoBD.desconectar(conn)
+            println("A competencia $nome foi inserida para o candidato escolhido.")
 
-            res.last()
-            int quant=res.getRow()
-            res.beforeFirst()
-
-            if(quantidade && quant){
-
-                PreparedStatement salvar = conn.prepareStatement(inserir)
-                salvar.setString(1, nome)
-                salvar.setString(2, cpf)
-
-                salvar.executeUpdate()
-                salvar.close()
-                ConexaoBD.desconectar(conn)
-                println("A competencia $nome foi inserida para o candidato escolhido.")
-
-            }else{
-                println("Candidato e/ou competencia não encontrado(s).")
-            }
 
         }catch (Exception e){
 
@@ -72,10 +35,10 @@ class CompetenciaCandidatoDAO {
         }
     }
 
-    static void deletarPorNome(nome){
+    static void deletarPorNome(String nome){
 
-        String buscar="SELECT * FROM Competencia_candidato WHERE nome_competencia=?"
-        String deletar="DELETE FROM Competencia_candidato WHERE nome_competencia=?"
+        String buscar = "SELECT * FROM Competencia_candidato WHERE nome_competencia=?"
+        String deletar = "DELETE FROM Competencia_candidato WHERE nome_competencia=?"
 
         try{
 
@@ -86,7 +49,7 @@ class CompetenciaCandidatoDAO {
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
             )
-            competenciaCandidato.setString(1, nome)
+            competenciaCandidato.setString (1, nome)
             ResultSet result=competenciaCandidato.executeQuery()
 
             result.last()
@@ -115,10 +78,10 @@ class CompetenciaCandidatoDAO {
 
     }
 
-    static void deletarPorCandidato(cpf){
+    static void deletarPorCandidato(String cpf){
 
-        String buscar="SELECT * FROM Competencia_candidato WHERE cpf_candidato=?"
-        String deletar="DELETE FROM Competencia_candidato WHERE cpf_candidato=?"
+        String buscar = "SELECT * FROM Competencia_candidato WHERE cpf_candidato=?"
+        String deletar = "DELETE FROM Competencia_candidato WHERE cpf_candidato=?"
 
         try{
 

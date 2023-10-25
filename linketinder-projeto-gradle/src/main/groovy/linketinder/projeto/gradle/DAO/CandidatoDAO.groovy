@@ -5,13 +5,12 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import linketinder.projeto.gradle.Model.Candidato
-import java.util.concurrent.ExecutionException
 
 class CandidatoDAO {
 
      static void cadastrar(Candidato candidato){
 
-        String inserir="INSERT INTO Candidatos(nome, sobrenome, cpf, email, data_nascimento, senha, descricao_pessoal, pais, cep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        String inserir = "INSERT INTO Candidatos(nome, sobrenome, cpf, email, data_nascimento, senha, descricao_pessoal, pais, cep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
         try{
 
@@ -31,19 +30,18 @@ class CandidatoDAO {
             salvar.executeUpdate()
             salvar.close()
             ConexaoBD.desconectar(conn)
-            println("O candidato $candidato.nome foi inserido.")
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao cadastrar candidato.")
+
         }
 
     }
 
-    static int buscar(String cpf){
+    static boolean buscar(String cpf){
 
-        String buscar="SELECT * FROM Candidatos WHERE cpf=?"
+        String buscar = "SELECT * FROM Candidatos WHERE cpf=?"
 
         Connection conn=ConexaoBD.conectar()
 
@@ -56,21 +54,20 @@ class CandidatoDAO {
         ResultSet result=candidato.executeQuery()
 
         result.last()
-        int quantidade=result.getRow()
+        boolean busca=result.getRow()
 
         ConexaoBD.desconectar(conn)
 
-        return quantidade
+        return busca
     }
 
     static void alterar(String email, String senha, String descricaoPessoal, String pais, String cep, String cpf){
-
 
         try{
 
             Connection conn=ConexaoBD.conectar()
 
-            String update="UPDATE Candidatos SET email=?, senha=?, descricao_pessoal=?, pais=?, cep=? WHERE cpf=?"
+            String update = "UPDATE Candidatos SET email=?, senha=?, descricao_pessoal=?, pais=?, cep=? WHERE cpf=?"
 
             PreparedStatement atualizar = conn.prepareStatement(update)
             atualizar.setString(1, email)
@@ -98,7 +95,7 @@ class CandidatoDAO {
 
     static void deletar(String cpf){
 
-        String deletar="DELETE FROM Candidatos WHERE cpf=?"
+        String deletar = "DELETE FROM Candidatos WHERE cpf=?"
 
         CompetenciaCandidatoDAO.deletarPorCandidato(cpf)
         CurtidasCandidatoDAO.deletarPorCpf(cpf)
@@ -126,9 +123,11 @@ class CandidatoDAO {
         }
     }
 
-    static void listar(){
+    static LinkedList<Candidato> listar(){
 
-        String buscar="SELECT * FROM Candidatos"
+        String buscar = "SELECT * FROM Candidatos"
+
+        LinkedList<Candidato> listaCandidatos = new LinkedList<Candidato>()
 
         try{
 
@@ -146,29 +145,22 @@ class CandidatoDAO {
 
             if(quantidade>0){
 
-                println("Listando todos os candidatos...\n")
+                while(result.next()) {
 
-                while(result.next()){
-                    println("\n\nNome: " + result.getString(1))
-                    println("Sobrenome: " + result.getString(2))
-                    println("CPF: " + result.getString(3))
-                    println("Email: " + result.getString(4))
-                    println("Data de nascimento: " + result.getString(5))
-                    println("Senha: " + result.getString(6))
-                    println("Descrição Pessoal: " + result.getString(7))
-                    println("País: " + result.getString(8))
-                    println("CEP: " + result.getString(9))
+                    Candidato candidato = new Candidato(result.getString(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getString(6), result.getString(7), result.getString(8), result.getString(9))
+                    listaCandidatos.add(candidato)
+
                 }
-                ConexaoBD.desconectar(conn)
 
-            }else{
-                println("Nenhum candidato cadastrado.")
             }
+
+            ConexaoBD.desconectar(conn)
+            return listaCandidatos
 
         }catch(Exception e){
 
             e.printStackTrace()
-            println("Erro ao buscar candidatos.")
+
         }
     }
 }
