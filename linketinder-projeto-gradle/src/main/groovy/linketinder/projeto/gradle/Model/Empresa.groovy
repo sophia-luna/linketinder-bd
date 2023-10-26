@@ -5,7 +5,7 @@ class Empresa extends Pessoa {
     public String cnpj
     public String descricaoEmpresa
 
-    Empresa(String nome, String cnpj, String email, String senha, String pais, String cep, String descricaoEmpresa) {
+    Empresa(String nome, String cnpj, String email, String senha, String descricaoEmpresa, String pais, String cep) {
         this.nome=nome
         this.email=email
         this.cnpj=cnpj
@@ -19,7 +19,8 @@ class Empresa extends Pessoa {
     String toString() {
 
         return """
-        \n\nNome da Empresa: $nome
+        \n\n
+        Nome da Empresa: $nome
         CNPJ $cnpj
         Email: $email
         Senha: $senha

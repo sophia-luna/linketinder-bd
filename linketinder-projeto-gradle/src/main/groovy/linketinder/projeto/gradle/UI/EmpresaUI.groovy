@@ -30,7 +30,7 @@ class EmpresaUI {
         print("Descrição da Empresa: ")
         String descricaoEmpresa=System.in.newReader().readLine()
 
-        EmpresaDAO.cadastrar(new Empresa(nome, cnpj, email, senha, pais, cep, descricaoEmpresa))
+        EmpresaDAO.cadastrar(new Empresa(nome, cnpj, email, senha, descricaoEmpresa, pais, cep))
 
     }
 

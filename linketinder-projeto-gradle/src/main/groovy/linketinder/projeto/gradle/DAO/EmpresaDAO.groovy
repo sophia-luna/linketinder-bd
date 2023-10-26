@@ -27,12 +27,12 @@ class EmpresaDAO {
             salvar.executeUpdate()
             salvar.close()
             ConexaoBD.desconectar(conn)
-            println("A empresa $empresa.nome foi inserida.")
+
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao cadastrar empresa.")
+
         }
 
     }
@@ -79,13 +79,10 @@ class EmpresaDAO {
             atualizar.close()
             ConexaoBD.desconectar(conn)
 
-            println("Os dados da empresa foram atualizados.")
-
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao atualizar empresa.")
 
         }
 
@@ -109,12 +106,10 @@ class EmpresaDAO {
             delete.close()
             ConexaoBD.desconectar(conn)
 
-            println("A empresa foi deletada.")
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao deletar empresa.")
 
         }
     }
@@ -140,15 +135,11 @@ class EmpresaDAO {
 
             if(quantidade>0){
 
-                println("Listando todas as empresas...\n")
-
                 while(result.next()){
                     Empresa empresa = new Empresa(result.getString(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getString(6), result.getString(7) )
                     listaEmpresas.add(empresa)
                 }
 
-            }else{
-                println("Nenhuma empresa cadastrada.")
             }
 
             ConexaoBD.desconectar(conn)
@@ -157,7 +148,7 @@ class EmpresaDAO {
         }catch(Exception e){
 
             e.printStackTrace()
-            println("Erro ao buscar empresas.")
+
         }
     }
 }

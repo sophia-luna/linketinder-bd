@@ -26,12 +26,11 @@ class VagaDAO {
             salvar.executeUpdate()
             salvar.close()
             ConexaoBD.desconectar(conn)
-            println("A vaga $vaga.nome foi inserida.")
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao cadastrar empresa.")
+
         }
 
     }
@@ -78,12 +77,10 @@ class VagaDAO {
             atualizar.close()
             ConexaoBD.desconectar(conn)
 
-            println("Os dados da vaga foram atualizados.")
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao atualizar vaga.")
 
         }
 
@@ -106,12 +103,10 @@ class VagaDAO {
             delete.close()
             ConexaoBD.desconectar(conn)
 
-            println("A vaga foi deletada.")
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao deletar vaga.")
 
         }
     }
@@ -143,8 +138,6 @@ class VagaDAO {
                     listaVagas.add(vaga)
                 }
 
-            }else{
-                println("Nenhuma vaga cadastrada.")
             }
 
             ConexaoBD.desconectar(conn)
@@ -153,7 +146,7 @@ class VagaDAO {
         }catch(Exception e){
 
             e.printStackTrace()
-            println("Erro ao buscar vagas.")
+
         }
     }
 
@@ -180,14 +173,11 @@ class VagaDAO {
                 while (result.next()){
                     VagaDAO.deletar(result.getString(1))
                 }
-            }else{
-                println("Empresa não tem vagas...")
             }
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao deletar vagas da empresa.")
 
         }
     }

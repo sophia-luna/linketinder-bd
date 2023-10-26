@@ -22,12 +22,11 @@ class CompetenciaDAO {
             salvar.executeUpdate()
             salvar.close()
             ConexaoBD.desconectar(conn)
-            println("A competencia $competencia.nome foi inserida.")
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao cadastrar competencia.")
+
         }
 
     }
@@ -62,14 +61,11 @@ class CompetenciaDAO {
                 delete.executeUpdate()
                 delete.close()
 
-                println("A competencia foi deletada.")
-
             }
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao deletar competencia.")
 
         }
     }

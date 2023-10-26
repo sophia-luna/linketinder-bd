@@ -23,7 +23,8 @@ class Candidato extends Pessoa {
     String toString() {
 
         return """
-        \n\nNome: $nome
+        \n\n
+        Nome: $nome
         Sobrenome: $sobrenome 
         CPF: $cpf
         Email: $email

@@ -11,7 +11,8 @@ class Competencia {
     String toString() {
 
         return """
-        \n\nNome da Competencia: $nome
+        \n\n
+        Nome da Competencia: $nome
         """
 
     }

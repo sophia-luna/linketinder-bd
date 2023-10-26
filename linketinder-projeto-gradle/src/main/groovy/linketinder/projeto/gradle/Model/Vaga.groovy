@@ -22,7 +22,8 @@ class Vaga {
     String toString() {
 
         return """
-        \n\nNome: $nome
+        \n\n
+        Nome: $nome
         ID: $id
         Descricao da vaga: $descricao
         CNPJ da emepresa: $cnpjEmpresa

@@ -81,13 +81,11 @@ class CandidatoDAO {
             atualizar.close()
             ConexaoBD.desconectar(conn)
 
-            println("Os dados do candidato foram atualizados.")
 
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao atualizar candidato.")
 
         }
 
@@ -112,13 +110,11 @@ class CandidatoDAO {
             delete.close()
             ConexaoBD.desconectar(conn)
 
-            println("O candidato foi deletado.")
 
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao deletar candidato.")
 
         }
     }
