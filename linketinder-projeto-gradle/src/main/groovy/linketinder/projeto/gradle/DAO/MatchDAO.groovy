@@ -3,7 +3,7 @@ package linketinder.projeto.gradle.DAO
 import linketinder.projeto.gradle.BD.Factory.ConexaoBDFactory
 import linketinder.projeto.gradle.BD.Factory.IConexaoBD
 import linketinder.projeto.gradle.Model.Match
-import linketinder.projeto.gradle.UI.MatchUI
+import linketinder.projeto.gradle.View.MatchView
 
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -29,7 +29,7 @@ class MatchDAO {
             salvar.close()
             ConexaoBD.desconectar()
 
-            MatchUI.match()
+            MatchView.match()
 
         }catch (Exception e){
 

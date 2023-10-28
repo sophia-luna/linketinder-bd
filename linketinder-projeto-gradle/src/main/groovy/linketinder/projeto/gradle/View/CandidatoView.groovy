@@ -1,9 +1,10 @@
-package linketinder.projeto.gradle.UI
+package linketinder.projeto.gradle.View
 
+import linketinder.projeto.gradle.Controller.CandidatoController
 import linketinder.projeto.gradle.DAO.CandidatoDAO
 import linketinder.projeto.gradle.Model.Candidato
 
-class CandidatoUI {
+class CandidatoView {
 
     static void criar() {
 
@@ -34,7 +35,7 @@ class CandidatoUI {
         print("CEP: ")
         String cep = System.in.newReader().readLine()
 
-        CandidatoDAO.cadastrar(new Candidato(nome, sobrenome, cpf, email, dataNascimento, senha, descricaoPessoal, pais, cep))
+        CandidatoController.cadastrarCandidato(new Candidato(nome, sobrenome, cpf, email, dataNascimento, senha, descricaoPessoal, pais, cep))
     }
 
     static void alterar() {
@@ -42,7 +43,7 @@ class CandidatoUI {
         print("CPF do Candidato que deseja alterar: ")
         String cpf = System.in.newReader().readLine()
 
-        if (CandidatoDAO.buscar(cpf)) {
+        if (CandidatoController.buscar(cpf)) {
 
             print("Email do Candidato: ")
             String email = System.in.newReader().readLine()
@@ -59,7 +60,7 @@ class CandidatoUI {
             print("CEP: ")
             String cep = System.in.newReader().readLine()
 
-            CandidatoDAO.alterar(email, senha, descricaoPessoal, pais, cep, cpf)
+            CandidatoController.alterar(email, senha, descricaoPessoal, pais, cep, cpf)
 
         } else {
             println("Candidato não encontrado.")
@@ -71,9 +72,9 @@ class CandidatoUI {
         println("Insira o CPF do candidato que deseja deletar: ")
         String cpf = System.in.newReader().readLine()
 
-        if (CandidatoDAO.buscar(cpf)) {
+        if (CandidatoController.buscar(cpf)) {
 
-            CandidatoDAO.deletar(cpf)
+            CandidatoController.deletar(cpf)
 
         } else {
             println("Candidato não encontrado.")
@@ -82,12 +83,18 @@ class CandidatoUI {
 
     static void listar() {
 
-        LinkedList<Candidato> listaCandidatos = CandidatoDAO.listar()
+        LinkedList<Candidato> listaCandidatos = CandidatoController.listar()
 
-        listaCandidatos.each { Candidato candidato ->
-            {
-                println(candidato)
+        if(listaCandidatos){
+
+            listaCandidatos.each { Candidato candidato ->
+                {
+                    println(candidato)
+                }
             }
+
+        }else{
+            println "Nenhum candidato encontrado."
         }
 
     }

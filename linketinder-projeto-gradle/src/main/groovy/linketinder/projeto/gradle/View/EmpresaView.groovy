@@ -1,11 +1,10 @@
-package linketinder.projeto.gradle.UI
+package linketinder.projeto.gradle.View
 
-import linketinder.projeto.gradle.DAO.CandidatoDAO
+import linketinder.projeto.gradle.Controller.EmpresaController
 import linketinder.projeto.gradle.DAO.EmpresaDAO
-import linketinder.projeto.gradle.Model.Candidato
 import linketinder.projeto.gradle.Model.Empresa
 
-class EmpresaUI {
+class EmpresaView {
 
     static void criar(){
 
@@ -39,7 +38,7 @@ class EmpresaUI {
         print("CNPJ da empresa que deseja alterar: ")
         String cnpj=System.in.newReader().readLine()
 
-        if(EmpresaDAO.buscar(cnpj)){
+        if(EmpresaController.buscar(cnpj)){
 
             print("Email da Empresa: ")
             String email=System.in.newReader().readLine()
@@ -56,7 +55,7 @@ class EmpresaUI {
             print("Descrição da Empresa: ")
             String descricaoEmpresa=System.in.newReader().readLine()
 
-            EmpresaDAO.alterar(cnpj, email, senha, pais, cep, descricaoEmpresa)
+            EmpresaController.alterar(cnpj, email, senha, pais, cep, descricaoEmpresa)
 
         }else{
             println("Empresa não encontrada.")
@@ -68,9 +67,9 @@ class EmpresaUI {
         println("Insira o CNPJ da empresa que deseja deletar: ")
         String cnpj=System.in.newReader().readLine()
 
-        if(EmpresaDAO.buscar(cnpj)){
+        if(EmpresaController.buscar(cnpj)){
 
-            EmpresaDAO.deletar(cnpj)
+            EmpresaController.deletar(cnpj)
 
         }else{
             println("Empresa não encontrada.")
@@ -79,7 +78,7 @@ class EmpresaUI {
 
     static void listar(){
 
-        LinkedList<Empresa> listaEmpresas = EmpresaDAO.listar()
+        LinkedList<Empresa> listaEmpresas = EmpresaController.listar()
 
         listaEmpresas.each { Empresa empresa ->
             {

@@ -1,20 +1,17 @@
-package linketinder.projeto.gradle.UI
+package linketinder.projeto.gradle.View
 
-import linketinder.projeto.gradle.DAO.CandidatoDAO
-import linketinder.projeto.gradle.DAO.CompetenciaCandidatoDAO
-import linketinder.projeto.gradle.DAO.CompetenciaDAO
-import linketinder.projeto.gradle.DAO.CompetenciaVagaDAO
-import linketinder.projeto.gradle.DAO.VagaDAO
-import linketinder.projeto.gradle.Model.Competencia
+import linketinder.projeto.gradle.Controller.CandidatoController
+import linketinder.projeto.gradle.Controller.CompetenciaController
+import linketinder.projeto.gradle.Controller.VagaController
 
-class CompetenciaUI {
+class CompetenciaView {
 
     static void cadastrar(){
 
         print("Nome da competencia: ")
         String nome=System.in.newReader().readLine()
 
-        CompetenciaDAO.cadastrar(new Competencia(nome))
+        CompetenciaController.cadastrar(nome)
 
     }
 
@@ -23,7 +20,7 @@ class CompetenciaUI {
         println("Insira o nome da competencia que deseja deletar: ")
         String nome=System.in.newReader().readLine()
 
-        CompetenciaDAO.deletar(nome)
+        CompetenciaController.deletar(nome)
 
     }
 
@@ -35,11 +32,11 @@ class CompetenciaUI {
         print("CPF do candidato: ")
         String cpf=System.in.newReader().readLine()
 
-        if(CandidatoDAO.buscar(cpf)){
+        if(CandidatoController.buscar(cpf)){
 
-            if(CompetenciaDAO.buscar(nome)){
+            if(CompetenciaController.buscar(nome)){
 
-                CompetenciaCandidatoDAO.cadastrar(nome, cpf)
+                CompetenciaController.cadastrarCompetenciaCandidato(nome, cpf)
 
             }else {
                 println "Competencia não encontrada."
@@ -59,11 +56,11 @@ class CompetenciaUI {
         print("ID da vaga: ")
         String id=System.in.newReader().readLine()
 
-        if(VagaDAO.buscar(id)){
+        if(VagaController.buscar(id)){
 
-            if(CompetenciaDAO.buscar(nome)){
+            if(CompetenciaController.buscar(nome)){
 
-                CompetenciaVagaDAO.cadastrar(nome, id)
+                CompetenciaController.cadastrarCompetenciaVaga(nome, id)
 
             }else {
                 println "Vaga não encontrada."
@@ -74,5 +71,4 @@ class CompetenciaUI {
             println "Candidato não encontrado."
         }
     }
-
 }

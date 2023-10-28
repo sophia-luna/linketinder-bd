@@ -5,12 +5,13 @@ package linketinder.projeto.gradle
 
 import linketinder.projeto.gradle.DAO.CurtidasCandidatoDAO
 import linketinder.projeto.gradle.DAO.CurtidasEmpresaDAO
-import linketinder.projeto.gradle.UI.CandidatoUI
-import linketinder.projeto.gradle.UI.CompetenciaUI
-import linketinder.projeto.gradle.UI.EmpresaUI
-import linketinder.projeto.gradle.UI.MatchUI
-import linketinder.projeto.gradle.UI.VagaUI
 import linketinder.projeto.gradle.Utils.Menu
+import linketinder.projeto.gradle.View.CandidatoView
+import linketinder.projeto.gradle.View.CompetenciaView
+import linketinder.projeto.gradle.View.CurtidasView
+import linketinder.projeto.gradle.View.EmpresaView
+import linketinder.projeto.gradle.View.MatchView
+import linketinder.projeto.gradle.View.VagaView
 
 // SOPHIA SOUSA-AGUIAR LUNA
 class App{
@@ -27,109 +28,97 @@ class App{
             switch (i) {
                 case 1:
 
-                    CandidatoUI.criar()
+                    CandidatoView.criar()
                     break
 
                 case 2:
 
-                    CandidatoUI.alterar()
+                    CandidatoView.alterar()
                     break
 
                 case 3:
 
-                    CandidatoUI.deletar()
+                    CandidatoView.deletar()
                     break
 
                 case 4:
 
-                    CandidatoUI.listar()
+                    CandidatoView.listar()
                     break
 
                 case 5:
 
-                    EmpresaUI.criar()
+                    EmpresaView.criar()
                     break
 
                 case 6:
 
-                    EmpresaUI.alterar()
+                    EmpresaView.alterar()
                     break
 
                 case 7:
 
-                    EmpresaUI.deletar()
+                    EmpresaView.deletar()
                     break
 
                 case 8:
 
-                    EmpresaUI.listar()
+                    EmpresaView.listar()
                     break
 
                 case 9:
 
-                    VagaUI.criar()
+                    VagaView.criar()
                     break
 
                 case 10:
 
-                    VagaUI.alterar()
+                    VagaView.alterar()
                     break
 
                 case 11:
 
-                    VagaUI.deletar()
+                    VagaView.deletar()
                     break
 
                 case 12:
 
-                    VagaUI.listar()
+                    VagaView.listar()
                     break
 
                 case 13:
 
-                    CompetenciaUI.cadastrar()
+                    CompetenciaView.cadastrar()
                     break
 
                 case 14:
 
-                    CompetenciaUI.cadastrarCompetenciaCandidato()
+                    CompetenciaView.cadastrarCompetenciaCandidato()
                     break
 
                 case 15:
 
-                    CompetenciaUI.cadastrarCompetenciaVaga()
+                    CompetenciaView.cadastrarCompetenciaVaga()
                     break
 
                 case 16:
 
-                    CompetenciaUI.deletar()
+                    CompetenciaView.deletar()
                     break
 
                 case 17:
 
-                    println("Insira o CNPJ da empresa: ")
-                    String cnpj=System.in.newReader().readLine()
-
-                    println("Insira o CPF do candidato: ")
-                    String cpf=System.in.newReader().readLine()
-
-                    CurtidasEmpresaDAO.curtir(cnpj, cpf)
+                    CurtidasView.curtidasEmpresa()
                     break
 
                 case 18:
 
-                    println("Insira o CPF do candidato: ")
-                    String cpf=System.in.newReader().readLine()
-
-                    println("Insira o ID da vaga: ")
-                    String id=System.in.newReader().readLine()
-
-                    CurtidasCandidatoDAO.curtir(cpf, id)
+                    CurtidasView.curtidasCandidato()
                     break
 
                 case 19:
 
-                    MatchUI.listar()
+                    MatchView.listar()
                     break
 
                 case 20:

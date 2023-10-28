@@ -1,9 +1,10 @@
-package linketinder.projeto.gradle.UI
+package linketinder.projeto.gradle.View
 
+import linketinder.projeto.gradle.Controller.VagaController
 import linketinder.projeto.gradle.DAO.VagaDAO
 import linketinder.projeto.gradle.Model.Vaga
 
-class VagaUI {
+class VagaView {
 
     static void criar(){
 
@@ -25,7 +26,7 @@ class VagaUI {
         print("CNPJ da empresa: ")
         String cnpj=System.in.newReader().readLine()
 
-        VagaDAO.cadastrar(new Vaga(nome, id, descricao, estado, cidade, cnpj))
+        VagaController.cadastrar(new Vaga(nome, id, descricao, estado, cidade, cnpj))
 
     }
 
@@ -34,7 +35,7 @@ class VagaUI {
         print("ID da vaga que deseja alterar: ")
         String id=System.in.newReader().readLine()
 
-        if(VagaDAO.buscar(id)){
+        if(VagaController.buscar(id)){
 
             print("Descrição da Vaga: : ")
             String descricao=System.in.newReader().readLine()
@@ -45,7 +46,7 @@ class VagaUI {
             print("Cidade: ")
             String cidade=System.in.newReader().readLine()
 
-            VagaDAO.alterar(id, descricao, estado, cidade)
+            VagaController.alterar(id, descricao, estado, cidade)
 
         }else{
             println("Vaga não encontrada.")
@@ -57,9 +58,9 @@ class VagaUI {
         println("Insira o ID da vaga que deseja deletar: ")
         String id=System.in.newReader().readLine()
 
-        if(VagaDAO.buscar(id)){
+        if(VagaController.buscar(id)){
 
-            VagaDAO.deletar(id)
+            VagaController.deletar(id)
 
         }else{
             println("Vaga não encontrada.")
@@ -69,7 +70,7 @@ class VagaUI {
 
     static void listar(){
 
-        LinkedList<Vaga> listaVagas = VagaDAO.listar()
+        LinkedList<Vaga> listaVagas = VagaController.listar()
 
         listaVagas.each { Vaga vaga ->
             {
