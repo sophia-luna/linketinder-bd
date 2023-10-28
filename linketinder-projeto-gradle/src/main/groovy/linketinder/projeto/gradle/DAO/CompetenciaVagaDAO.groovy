@@ -27,13 +27,11 @@ class CompetenciaVagaDAO {
             salvar.close()
 
             conexaoBD.desconectar()
-            println("A competencia $nome foi inserida para a vaga escolhida.")
-
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao adicionar competencia para vaga.")
+
         }
     }
 
@@ -68,16 +66,13 @@ class CompetenciaVagaDAO {
                 delete.executeUpdate()
                 delete.close()
                 conexaoBD.desconectar()
-                println("A competencia $nome foi deletada de todas as vagas.")
 
-            }else{
-                "Competencia não encontrada em nenhuma vaga..."
             }
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao deletar competencia de vagas.")
+
         }
 
     }
@@ -113,16 +108,13 @@ class CompetenciaVagaDAO {
                 delete.executeUpdate()
                 delete.close()
                 conexaoBD.desconectar()
-                println("A vaga foi deletada da tabela de competencia.")
 
-            }else{
-                "Vaga não possui nenhuma competencia..."
             }
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao deletar vaga da tabela de competencia.")
+
         }
 
     }

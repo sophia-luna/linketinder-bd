@@ -5,6 +5,10 @@ import linketinder.projeto.gradle.Model.Match
 
 class MatchUI {
 
+    static void match(){
+        println("MATCH!!!")
+    }
+
     static void listar(){
 
         LinkedList<Match> listaMatches = MatchDAO.listar()

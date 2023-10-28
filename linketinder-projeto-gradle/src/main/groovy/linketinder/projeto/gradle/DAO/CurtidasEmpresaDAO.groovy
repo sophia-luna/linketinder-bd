@@ -26,9 +26,6 @@ class CurtidasEmpresaDAO {
             salvar.executeUpdate()
             salvar.close()
 
-            println("Empresa curtiu candidato.")
-
-            //verificar se candidato curtiu empresa
             String buscar="SELECT * FROM Candidato_curte_vaga " +
                     "WHERE cpf_candidato=? AND " +
                     "id_vaga=(SELECT id_vaga FROM Vagas WHERE cnpj_empresa=?)"
@@ -56,7 +53,7 @@ class CurtidasEmpresaDAO {
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao curtir candidato.")
+
         }
 
 
@@ -92,16 +89,11 @@ class CurtidasEmpresaDAO {
                 delete.close()
                 ConexaoBD.desconectar()
 
-                println("Curtidas dadas no candidato deletadas.")
-
-            }else{
-                println("Candidato não foi curtido...")
             }
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao deletar curtidas dadas no candidato.")
 
         }
     }
@@ -136,16 +128,12 @@ class CurtidasEmpresaDAO {
                 delete.close()
                 ConexaoBD.desconectar()
 
-                println("Curtidas da empresa deletadas.")
 
-            }else{
-                println("Empresa não tem curtidas...")
             }
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao deletar curtidas da empresa.")
 
         }
     }

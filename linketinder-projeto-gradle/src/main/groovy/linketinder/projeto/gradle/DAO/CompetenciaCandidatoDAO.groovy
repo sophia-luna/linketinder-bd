@@ -28,13 +28,10 @@ class CompetenciaCandidatoDAO {
             salvar.close()
 
             conexaoBD.desconectar()
-            println("A competencia $nome foi inserida para o candidato escolhido.")
-
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao adicionar competencia para candidato.")
         }
     }
 
@@ -69,10 +66,7 @@ class CompetenciaCandidatoDAO {
                 delete.executeUpdate()
                 delete.close()
                 conexaoBD.desconectar()
-                println("A competencia $nome foi deletada de todos os candidatos.")
 
-            }else{
-                "Competencia não encontrada em nenhum candidato..."
             }
 
             conexaoBD.desconectar()
@@ -80,7 +74,7 @@ class CompetenciaCandidatoDAO {
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao deletar competencia de candidatos.")
+
         }
 
     }
@@ -116,16 +110,13 @@ class CompetenciaCandidatoDAO {
                 delete.executeUpdate()
                 delete.close()
                 conexaoBD.desconectar()
-                println("O candidato foi deletado da tabela de competencia.")
 
-            }else{
-                "Candidato não possui nenhuma competencia..."
             }
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao deletar candidato da tabela de competencia.")
+
         }
 
     }

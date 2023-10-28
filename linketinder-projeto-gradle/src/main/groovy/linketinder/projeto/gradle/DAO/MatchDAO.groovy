@@ -3,6 +3,8 @@ package linketinder.projeto.gradle.DAO
 import linketinder.projeto.gradle.BD.Factory.ConexaoBDFactory
 import linketinder.projeto.gradle.BD.Factory.IConexaoBD
 import linketinder.projeto.gradle.Model.Match
+import linketinder.projeto.gradle.UI.MatchUI
+
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
@@ -27,12 +29,12 @@ class MatchDAO {
             salvar.close()
             ConexaoBD.desconectar()
 
-            println("Match!")
+            MatchUI.match()
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao dar match.")
+
         }
 
     }
@@ -67,16 +69,12 @@ class MatchDAO {
                 delete.close()
                 ConexaoBD.desconectar()
 
-                println("Matches da empresa deletados.")
-
-            }else{
-                println("Empresa não tem matches...")
             }
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao deletar matches da empresa.")
+
 
         }
     }
@@ -111,16 +109,11 @@ class MatchDAO {
                 delete.close()
                 ConexaoBD.desconectar()
 
-                println("Matches do candidato deletados.")
-
-            }else{
-                println("Candidato não tem matches...")
             }
 
         }catch (Exception e){
 
             e.printStackTrace()
-            println("Erro ao deletar matches do candidato.")
 
         }
     }
@@ -154,8 +147,6 @@ class MatchDAO {
                     listaMatches.add(match)
                 }
 
-            }else{
-                println("Nenhum match cadastrado.")
             }
 
             ConexaoBD.desconectar()
@@ -164,7 +155,7 @@ class MatchDAO {
         }catch(Exception e){
 
             e.printStackTrace()
-            println("Erro ao buscar matches.")
+
         }
     }
 
