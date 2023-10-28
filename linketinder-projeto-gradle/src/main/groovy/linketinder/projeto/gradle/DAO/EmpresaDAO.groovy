@@ -1,5 +1,7 @@
 package linketinder.projeto.gradle.DAO
-import linketinder.projeto.gradle.Utils.ConexaoBD
+
+import linketinder.projeto.gradle.BD.Factory.ConexaoBDFactory
+import linketinder.projeto.gradle.BD.Factory.IConexaoBD
 import linketinder.projeto.gradle.Model.Empresa
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -9,13 +11,15 @@ class EmpresaDAO {
 
     static void cadastrar(Empresa empresa){
 
+        IConexaoBD ConexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String inserir="INSERT INTO Empresas(nome, cnpj, email, senha, descricao_empresa, pais, cep) VALUES (?, ?, ?, ?, ?, ?, ?)"
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
+            ConexaoBD.conectar()
 
-            PreparedStatement salvar = conn.prepareStatement(inserir)
+            PreparedStatement salvar = ConexaoBD.conn.prepareStatement(inserir)
             salvar.setString(1, empresa.nome)
             salvar.setString(2, empresa.cnpj)
             salvar.setString(3, empresa.email)
@@ -26,7 +30,7 @@ class EmpresaDAO {
 
             salvar.executeUpdate()
             salvar.close()
-            ConexaoBD.desconectar(conn)
+            ConexaoBD.desconectar()
 
 
         }catch (Exception e){
@@ -39,11 +43,13 @@ class EmpresaDAO {
 
     static int buscar(String cnpj){
 
+        IConexaoBD ConexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String buscar="SELECT * FROM Empresas WHERE cnpj=?"
 
-        Connection conn=ConexaoBD.conectar()
+        ConexaoBD.conectar()
 
-        PreparedStatement empresa= conn.prepareStatement(
+        PreparedStatement empresa= ConexaoBD.conn.prepareStatement(
                 buscar,
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY
@@ -54,20 +60,22 @@ class EmpresaDAO {
         result.last()
         int quantidade=result.getRow()
 
-        ConexaoBD.desconectar(conn)
+        ConexaoBD.desconectar()
 
         return quantidade
     }
 
     static void alterar(String cnpj, String email, String senha, String pais, String cep, String descricaoEmpresa){
 
+        IConexaoBD ConexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         try{
 
-            Connection conn=ConexaoBD.conectar()
+            ConexaoBD.conectar()
 
             String update="UPDATE Empresas SET email=?, senha=?, descricao_empresa=?, pais=?, cep=? WHERE cnpj=?"
 
-            PreparedStatement atualizar = conn.prepareStatement(update)
+            PreparedStatement atualizar = ConexaoBD.conn.prepareStatement(update)
             atualizar.setString(1, email)
             atualizar.setString(2, senha)
             atualizar.setString(3, descricaoEmpresa)
@@ -77,7 +85,7 @@ class EmpresaDAO {
 
             atualizar.executeUpdate()
             atualizar.close()
-            ConexaoBD.desconectar(conn)
+            ConexaoBD.desconectar()
 
 
         }catch (Exception e){
@@ -90,6 +98,8 @@ class EmpresaDAO {
 
     static void deletar(String cnpj){
 
+        IConexaoBD ConexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String deletar="DELETE FROM Empresas WHERE cnpj=?"
 
         VagaDAO.deletarPorEmpresa(cnpj)
@@ -98,13 +108,13 @@ class EmpresaDAO {
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
+            ConexaoBD.conectar()
 
-            PreparedStatement delete = conn.prepareStatement(deletar)
+            PreparedStatement delete = ConexaoBD.conn.prepareStatement(deletar)
             delete.setString(1, cnpj)
             delete.executeUpdate()
             delete.close()
-            ConexaoBD.desconectar(conn)
+            ConexaoBD.desconectar()
 
 
         }catch (Exception e){
@@ -116,13 +126,15 @@ class EmpresaDAO {
 
     static LinkedList<Empresa> listar(){
 
+        IConexaoBD ConexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String buscar="SELECT * FROM Empresas"
 
         LinkedList<Empresa> listaEmpresas = new LinkedList<Empresa>()
         try{
 
-            Connection conn= ConexaoBD.conectar()
-            PreparedStatement empresas=conn.prepareStatement(
+            ConexaoBD.conectar()
+            PreparedStatement empresas=ConexaoBD.conn.prepareStatement(
                     buscar,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
@@ -142,7 +154,7 @@ class EmpresaDAO {
 
             }
 
-            ConexaoBD.desconectar(conn)
+            ConexaoBD.desconectar()
             return listaEmpresas
 
         }catch(Exception e){

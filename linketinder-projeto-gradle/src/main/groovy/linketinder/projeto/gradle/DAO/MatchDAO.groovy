@@ -1,7 +1,8 @@
 package linketinder.projeto.gradle.DAO
 
+import linketinder.projeto.gradle.BD.Factory.ConexaoBDFactory
+import linketinder.projeto.gradle.BD.Factory.IConexaoBD
 import linketinder.projeto.gradle.Model.Match
-import linketinder.projeto.gradle.Utils.ConexaoBD
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
@@ -10,19 +11,21 @@ class MatchDAO {
 
     static void match(String cpf, String cnpj){
 
+        IConexaoBD ConexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String inserir="INSERT INTO Matches(cpf_candidato, cnpj_empresa) VALUES (?, ?)"
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
+            ConexaoBD.conectar()
 
-            PreparedStatement salvar = conn.prepareStatement(inserir)
+            PreparedStatement salvar = ConexaoBD.conn.prepareStatement(inserir)
             salvar.setString(1, cpf)
             salvar.setString(2, cnpj)
 
             salvar.executeUpdate()
             salvar.close()
-            ConexaoBD.desconectar(conn)
+            ConexaoBD.desconectar()
 
             println("Match!")
 
@@ -36,13 +39,15 @@ class MatchDAO {
 
     static void deletarPorCnpj(String cnpj){
 
+        IConexaoBD ConexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String deletar="DELETE FROM Matches WHERE cnpj_empresa=?"
         String buscar="SELECT * FROM Matches WHERE cnpj_empresa=?"
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
-            PreparedStatement match=conn.prepareStatement(
+            ConexaoBD.conectar()
+            PreparedStatement match=ConexaoBD.conn.prepareStatement(
                     buscar,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
@@ -56,11 +61,11 @@ class MatchDAO {
 
             if(quantidade) {
 
-                PreparedStatement delete = conn.prepareStatement(deletar)
+                PreparedStatement delete = ConexaoBD.conn.prepareStatement(deletar)
                 delete.setString(1, cnpj)
                 delete.executeUpdate()
                 delete.close()
-                ConexaoBD.desconectar(conn)
+                ConexaoBD.desconectar()
 
                 println("Matches da empresa deletados.")
 
@@ -78,13 +83,15 @@ class MatchDAO {
 
     static void deletarPorCpf(String cpf){
 
+        IConexaoBD ConexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String deletar="DELETE FROM Matches WHERE cpf_candidato=?"
         String buscar="SELECT * FROM Matches WHERE cpf_candidato=?"
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
-            PreparedStatement matches=conn.prepareStatement(
+            ConexaoBD.conectar()
+            PreparedStatement matches=ConexaoBD.conn.prepareStatement(
                     buscar,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
@@ -98,11 +105,11 @@ class MatchDAO {
 
             if(quantidade) {
 
-                PreparedStatement delete = conn.prepareStatement(deletar)
+                PreparedStatement delete = ConexaoBD.conn.prepareStatement(deletar)
                 delete.setString(1, cpf)
                 delete.executeUpdate()
                 delete.close()
-                ConexaoBD.desconectar(conn)
+                ConexaoBD.desconectar()
 
                 println("Matches do candidato deletados.")
 
@@ -120,14 +127,16 @@ class MatchDAO {
 
     static LinkedList<Match> listar(){
 
+        IConexaoBD ConexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String buscar="SELECT * FROM Matches"
 
         LinkedList<Match> listaMatches = new LinkedList<Match>()
 
         try{
 
-            Connection conn= ConexaoBD.conectar()
-            PreparedStatement matches=conn.prepareStatement(
+            ConexaoBD.conectar()
+            PreparedStatement matches=ConexaoBD.conn.prepareStatement(
                     buscar,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
@@ -149,7 +158,7 @@ class MatchDAO {
                 println("Nenhum match cadastrado.")
             }
 
-            ConexaoBD.desconectar(conn)
+            ConexaoBD.desconectar()
             return listaMatches
 
         }catch(Exception e){

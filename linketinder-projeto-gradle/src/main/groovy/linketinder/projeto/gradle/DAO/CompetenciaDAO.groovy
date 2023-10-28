@@ -1,8 +1,8 @@
 package linketinder.projeto.gradle.DAO
 
+import linketinder.projeto.gradle.BD.Factory.ConexaoBDFactory
+import linketinder.projeto.gradle.BD.Factory.IConexaoBD
 import linketinder.projeto.gradle.Model.Competencia
-import linketinder.projeto.gradle.Utils.ConexaoBD
-import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
@@ -10,18 +10,20 @@ class CompetenciaDAO {
 
     static void cadastrar(Competencia competencia){
 
+        IConexaoBD conexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String inserir="INSERT INTO Competencias(nome) VALUES (?)"
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
+           conexaoBD.conectar()
 
-            PreparedStatement salvar = conn.prepareStatement(inserir)
+            PreparedStatement salvar = conexaoBD.conn.prepareStatement(inserir)
             salvar.setString(1, competencia.nome)
 
             salvar.executeUpdate()
             salvar.close()
-            ConexaoBD.desconectar(conn)
+            conexaoBD.desconectar()
 
         }catch (Exception e){
 
@@ -33,6 +35,8 @@ class CompetenciaDAO {
 
     static void deletar(String nome){
 
+        IConexaoBD conexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String deletar="DELETE FROM Competencias WHERE nome=?"
         String buscar="SELECT * FROM Competencias WHERE nome=?"
 
@@ -41,8 +45,8 @@ class CompetenciaDAO {
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
-            PreparedStatement competencia=conn.prepareStatement(
+            conexaoBD.conectar()
+            PreparedStatement competencia=conexaoBD.conn.prepareStatement(
                     buscar,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
@@ -56,12 +60,14 @@ class CompetenciaDAO {
 
             if(quantidade) {
 
-                PreparedStatement delete = conn.prepareStatement(deletar)
+                PreparedStatement delete = conexaoBD.conn.prepareStatement(deletar)
                 delete.setString(1, nome)
                 delete.executeUpdate()
                 delete.close()
 
             }
+
+            conexaoBD.desconectar()
 
         }catch (Exception e){
 
@@ -72,11 +78,13 @@ class CompetenciaDAO {
 
     static boolean buscar(String nome){
 
+        IConexaoBD conexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String buscar="SELECT * FROM Competencias WHERE nome=?"
 
-        Connection conn=ConexaoBD.conectar()
+        conexaoBD.conectar()
 
-        PreparedStatement competencia= conn.prepareStatement(
+        PreparedStatement competencia= conexaoBD.conn.prepareStatement(
                 buscar,
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY
@@ -87,7 +95,7 @@ class CompetenciaDAO {
         result.last()
         boolean busca=result.getRow()
 
-        ConexaoBD.desconectar(conn)
+        conexaoBD.desconectar()
 
         return busca
     }

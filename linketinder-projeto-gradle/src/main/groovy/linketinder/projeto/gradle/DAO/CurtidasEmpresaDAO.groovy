@@ -1,5 +1,8 @@
 package linketinder.projeto.gradle.DAO
-import linketinder.projeto.gradle.Utils.ConexaoBD
+
+import linketinder.projeto.gradle.BD.Factory.ConexaoBDFactory
+import linketinder.projeto.gradle.BD.Factory.IConexaoBD
+
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
@@ -8,13 +11,15 @@ class CurtidasEmpresaDAO {
 
     static void curtir(String cnpj, String cpf){
 
+        IConexaoBD ConexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String inserir="INSERT INTO Empresa_curte_Candidato(cnpj_empresa, cpf_candidato) VALUES (?, ?)"
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
+            ConexaoBD.conectar()
 
-            PreparedStatement salvar = conn.prepareStatement(inserir)
+            PreparedStatement salvar = ConexaoBD.conn.prepareStatement(inserir)
             salvar.setString(1, cnpj)
             salvar.setString(2, cpf)
 
@@ -29,7 +34,7 @@ class CurtidasEmpresaDAO {
                     "id_vaga=(SELECT id_vaga FROM Vagas WHERE cnpj_empresa=?)"
 
 
-            PreparedStatement like=conn.prepareStatement(
+            PreparedStatement like=ConexaoBD.conn.prepareStatement(
                     buscar,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
@@ -46,7 +51,7 @@ class CurtidasEmpresaDAO {
                 MatchDAO.match(cpf, cnpj)
             }
 
-            ConexaoBD.desconectar(conn)
+            ConexaoBD.desconectar()
 
         }catch (Exception e){
 
@@ -59,13 +64,15 @@ class CurtidasEmpresaDAO {
 
     static void deletarPorCpf(String cpf){
 
+        IConexaoBD ConexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String deletar="DELETE FROM Empresa_curte_candidato WHERE cpf_candidato=?"
         String buscar="SELECT * FROM Empresa_curte_candidato WHERE cpf_candidato=?"
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
-            PreparedStatement like=conn.prepareStatement(
+            ConexaoBD.conectar()
+            PreparedStatement like=ConexaoBD.conn.prepareStatement(
                     buscar,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
@@ -79,11 +86,11 @@ class CurtidasEmpresaDAO {
 
             if(quantidade) {
 
-                PreparedStatement delete = conn.prepareStatement(deletar)
+                PreparedStatement delete = ConexaoBD.conn.prepareStatement(deletar)
                 delete.setString(1, cpf)
                 delete.executeUpdate()
                 delete.close()
-                ConexaoBD.desconectar(conn)
+                ConexaoBD.desconectar()
 
                 println("Curtidas dadas no candidato deletadas.")
 
@@ -101,13 +108,15 @@ class CurtidasEmpresaDAO {
 
     static void deletarPorCnpj(String cnpj){
 
+        IConexaoBD ConexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String deletar="DELETE FROM Empresa_curte_candidato WHERE cnpj_empresa=?"
         String buscar="SELECT * FROM Empresa_curte_candidato WHERE cnpj_empresa=?"
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
-            PreparedStatement like=conn.prepareStatement(
+            ConexaoBD.conectar()
+            PreparedStatement like=ConexaoBD.conn.prepareStatement(
                     buscar,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
@@ -121,11 +130,11 @@ class CurtidasEmpresaDAO {
 
             if(quantidade) {
 
-                PreparedStatement delete = conn.prepareStatement(deletar)
+                PreparedStatement delete = ConexaoBD.conn.prepareStatement(deletar)
                 delete.setString(1, cnpj)
                 delete.executeUpdate()
                 delete.close()
-                ConexaoBD.desconectar(conn)
+                ConexaoBD.desconectar()
 
                 println("Curtidas da empresa deletadas.")
 

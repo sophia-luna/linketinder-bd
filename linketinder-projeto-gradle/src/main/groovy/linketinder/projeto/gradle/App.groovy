@@ -16,6 +16,8 @@ import linketinder.projeto.gradle.Utils.Menu
 class App{
     static void main(String[] args) {
 
+        println("Bem Vindo(a) ao Linketinder!")
+
         boolean loop=true
         while(loop){
 

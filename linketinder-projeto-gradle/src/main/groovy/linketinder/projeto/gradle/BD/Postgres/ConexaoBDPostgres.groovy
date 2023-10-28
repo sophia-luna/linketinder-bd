@@ -1,13 +1,25 @@
-package linketinder.projeto.gradle.Utils
+package linketinder.projeto.gradle.BD.Postgres
+
+import linketinder.projeto.gradle.BD.Factory.IConexaoBD
 
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
 
 
-class ConexaoBD {
+class ConexaoBDPostgres implements IConexaoBD{
 
-    static Connection conectar(){
+    private static ConexaoBDPostgres instance = new ConexaoBDPostgres()
+
+    private ConexaoBDPostgres(){}
+
+    static ConexaoBDPostgres getInstance() {
+        return instance
+    }
+
+    Connection conn
+
+    void conectar(){
 
         Properties props = new Properties()
         props.setProperty("user", "postgres")
@@ -18,7 +30,7 @@ class ConexaoBD {
 
         try{
 
-            return DriverManager.getConnection(url_servidor, props)
+            this.conn = DriverManager.getConnection(url_servidor, props)
 
         } catch(Exception e){
 
@@ -29,16 +41,15 @@ class ConexaoBD {
                 println("Verifique se o servidor esta ativo.")
             }
             System.exit(-42)
-            return null
 
         }
     }
 
-    static void desconectar(Connection conn){
+    void desconectar(){
 
-        if(conn!=null){
+        if(this.conn!=null){
             try{
-                conn.close()
+                this.conn.close()
             }
             catch (SQLException e){
                 e.printStackTrace()

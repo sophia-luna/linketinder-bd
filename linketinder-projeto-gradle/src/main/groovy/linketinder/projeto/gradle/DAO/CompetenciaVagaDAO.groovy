@@ -1,5 +1,8 @@
 package linketinder.projeto.gradle.DAO
-import linketinder.projeto.gradle.Utils.ConexaoBD
+
+import linketinder.projeto.gradle.BD.Factory.ConexaoBDFactory
+import linketinder.projeto.gradle.BD.Factory.IConexaoBD
+
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
@@ -8,20 +11,22 @@ class CompetenciaVagaDAO {
 
     static void cadastrar(String nome, String id){
 
+        IConexaoBD conexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String inserir="INSERT INTO Competencia_empresa(nome_competencia, id_vaga) VALUES (?, ?)"
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
+            conexaoBD.conectar()
 
-            PreparedStatement salvar = conn.prepareStatement(inserir)
+            PreparedStatement salvar = conexaoBD.conn.prepareStatement(inserir)
             salvar.setString(1, nome)
             salvar.setString(2, id)
 
             salvar.executeUpdate()
             salvar.close()
 
-            ConexaoBD.desconectar(conn)
+            conexaoBD.desconectar()
             println("A competencia $nome foi inserida para a vaga escolhida.")
 
 
@@ -34,14 +39,16 @@ class CompetenciaVagaDAO {
 
     static void deletarPorNome(String nome){
 
+        IConexaoBD conexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String buscar="SELECT * FROM Competencia_empresa WHERE nome_competencia=?"
         String deletar="DELETE FROM Competencia_empresa WHERE nome_competencia=?"
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
+            conexaoBD.conectar()
 
-            PreparedStatement competencia=conn.prepareStatement(
+            PreparedStatement competencia=conexaoBD.conn.prepareStatement(
                     buscar,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
@@ -55,12 +62,12 @@ class CompetenciaVagaDAO {
 
             if(quantidade){
 
-                PreparedStatement delete = conn.prepareStatement(deletar)
+                PreparedStatement delete = conexaoBD.conn.prepareStatement(deletar)
                 delete.setString(1, nome)
 
                 delete.executeUpdate()
                 delete.close()
-                ConexaoBD.desconectar(conn)
+                conexaoBD.desconectar()
                 println("A competencia $nome foi deletada de todas as vagas.")
 
             }else{
@@ -77,14 +84,16 @@ class CompetenciaVagaDAO {
 
     static void deletarPorVaga(String id){
 
+        IConexaoBD conexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String buscar="SELECT * FROM Competencia_empresa WHERE id_vaga=?"
         String deletar="DELETE FROM Competencia_empresa WHERE id_vaga=?"
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
+            conexaoBD.conectar()
 
-            PreparedStatement competencia=conn.prepareStatement(
+            PreparedStatement competencia=conexaoBD.conn.prepareStatement(
                     buscar,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
@@ -98,12 +107,12 @@ class CompetenciaVagaDAO {
 
             if(quantidade){
 
-                PreparedStatement delete = conn.prepareStatement(deletar)
+                PreparedStatement delete = conexaoBD.conn.prepareStatement(deletar)
                 delete.setString(1, id)
 
                 delete.executeUpdate()
                 delete.close()
-                ConexaoBD.desconectar(conn)
+                conexaoBD.desconectar()
                 println("A vaga foi deletada da tabela de competencia.")
 
             }else{

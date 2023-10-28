@@ -1,6 +1,8 @@
 package linketinder.projeto.gradle.DAO
 
-import linketinder.projeto.gradle.Utils.ConexaoBD
+import linketinder.projeto.gradle.BD.Factory.ConexaoBDFactory
+import linketinder.projeto.gradle.BD.Factory.IConexaoBD
+
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
@@ -8,15 +10,18 @@ import linketinder.projeto.gradle.Model.Candidato
 
 class CandidatoDAO {
 
+
      static void cadastrar(Candidato candidato){
+
+         IConexaoBD conexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
 
         String inserir = "INSERT INTO Candidatos(nome, sobrenome, cpf, email, data_nascimento, senha, descricao_pessoal, pais, cep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
+            conexaoBD.conectar()
 
-            PreparedStatement salvar = conn.prepareStatement(inserir)
+            PreparedStatement salvar = conexaoBD.conn.prepareStatement(inserir)
             salvar.setString(1, candidato.nome)
             salvar.setString(2, candidato.sobrenome)
             salvar.setString(3, candidato.cpf)
@@ -29,7 +34,7 @@ class CandidatoDAO {
 
             salvar.executeUpdate()
             salvar.close()
-            ConexaoBD.desconectar(conn)
+            conexaoBD.desconectar()
 
         }catch (Exception e){
 
@@ -41,11 +46,13 @@ class CandidatoDAO {
 
     static boolean buscar(String cpf){
 
+        IConexaoBD conexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String buscar = "SELECT * FROM Candidatos WHERE cpf=?"
 
-        Connection conn=ConexaoBD.conectar()
+        conexaoBD.conectar()
 
-        PreparedStatement candidato= conn.prepareStatement(
+        PreparedStatement candidato= conexaoBD.conn.prepareStatement(
                 buscar,
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY
@@ -56,20 +63,22 @@ class CandidatoDAO {
         result.last()
         boolean busca=result.getRow()
 
-        ConexaoBD.desconectar(conn)
+        conexaoBD.desconectar()
 
         return busca
     }
 
     static void alterar(String email, String senha, String descricaoPessoal, String pais, String cep, String cpf){
 
+        IConexaoBD conexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         try{
 
-            Connection conn=ConexaoBD.conectar()
+            conexaoBD.conectar()
 
             String update = "UPDATE Candidatos SET email=?, senha=?, descricao_pessoal=?, pais=?, cep=? WHERE cpf=?"
 
-            PreparedStatement atualizar = conn.prepareStatement(update)
+            PreparedStatement atualizar = conexaoBD.conn.prepareStatement(update)
             atualizar.setString(1, email)
             atualizar.setString(2, senha)
             atualizar.setString(3, descricaoPessoal)
@@ -79,9 +88,7 @@ class CandidatoDAO {
 
             atualizar.executeUpdate()
             atualizar.close()
-            ConexaoBD.desconectar(conn)
-
-
+            conexaoBD.desconectar()
 
         }catch (Exception e){
 
@@ -93,6 +100,8 @@ class CandidatoDAO {
 
     static void deletar(String cpf){
 
+        IConexaoBD conexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String deletar = "DELETE FROM Candidatos WHERE cpf=?"
 
         CompetenciaCandidatoDAO.deletarPorCandidato(cpf)
@@ -102,13 +111,13 @@ class CandidatoDAO {
 
         try{
 
-            Connection conn=ConexaoBD.conectar()
+            conexaoBD.conectar()
 
-            PreparedStatement delete = conn.prepareStatement(deletar)
+            PreparedStatement delete = conexaoBD.conn.prepareStatement(deletar)
             delete.setString(1, cpf)
             delete.executeUpdate()
             delete.close()
-            ConexaoBD.desconectar(conn)
+            conexaoBD.desconectar()
 
 
 
@@ -121,14 +130,16 @@ class CandidatoDAO {
 
     static LinkedList<Candidato> listar(){
 
+        IConexaoBD conexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
+
         String buscar = "SELECT * FROM Candidatos"
 
         LinkedList<Candidato> listaCandidatos = new LinkedList<Candidato>()
 
         try{
 
-            Connection conn= ConexaoBD.conectar()
-            PreparedStatement candidatos=conn.prepareStatement(
+            conexaoBD.conectar()
+            PreparedStatement candidatos=conexaoBD.conn.prepareStatement(
                     buscar,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
@@ -150,7 +161,7 @@ class CandidatoDAO {
 
             }
 
-            ConexaoBD.desconectar(conn)
+            conexaoBD.desconectar()
             return listaCandidatos
 
         }catch(Exception e){
