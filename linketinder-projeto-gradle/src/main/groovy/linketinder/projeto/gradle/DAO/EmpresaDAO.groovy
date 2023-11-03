@@ -47,22 +47,29 @@ class EmpresaDAO {
 
         String buscar="SELECT * FROM Empresas WHERE cnpj=?"
 
-        ConexaoBD.conectar()
+        try{
 
-        PreparedStatement empresa= ConexaoBD.conn.prepareStatement(
-                buscar,
-                ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY
-        )
-        empresa.setString(1, cnpj)
-        ResultSet result=empresa.executeQuery()
+            ConexaoBD.conectar()
 
-        result.last()
-        int quantidade=result.getRow()
+            PreparedStatement empresa= ConexaoBD.conn.prepareStatement(
+                    buscar,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY
+            )
+            empresa.setString(1, cnpj)
+            ResultSet result=empresa.executeQuery()
 
-        ConexaoBD.desconectar()
+            result.last()
+            int quantidade=result.getRow()
 
-        return quantidade
+            ConexaoBD.desconectar()
+
+            return quantidade
+
+        } catch(Exception e) {
+
+            e.printStackTrace()
+        }
     }
 
     static void alterar(String cnpj, String email, String senha, String pais, String cep, String descricaoEmpresa){

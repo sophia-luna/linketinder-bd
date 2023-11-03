@@ -80,23 +80,30 @@ class CompetenciaDAO {
 
         IConexaoBD conexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
 
-        String buscar="SELECT * FROM Competencias WHERE nome=?"
+        try{
 
-        conexaoBD.conectar()
+            String buscar="SELECT * FROM Competencias WHERE nome=?"
 
-        PreparedStatement competencia= conexaoBD.conn.prepareStatement(
-                buscar,
-                ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY
-        )
-        competencia.setString(1, nome)
-        ResultSet result=competencia.executeQuery()
+            conexaoBD.conectar()
 
-        result.last()
-        boolean busca=result.getRow()
+            PreparedStatement competencia= conexaoBD.conn.prepareStatement(
+                    buscar,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY
+            )
+            competencia.setString(1, nome)
+            ResultSet result=competencia.executeQuery()
 
-        conexaoBD.desconectar()
+            result.last()
+            boolean busca=result.getRow()
 
-        return busca
+            conexaoBD.desconectar()
+
+            return busca
+
+        } catch(Exception e) {
+
+            e.printStackTrace()
+        }
     }
 }

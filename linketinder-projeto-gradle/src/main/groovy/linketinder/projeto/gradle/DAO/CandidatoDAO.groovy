@@ -15,9 +15,9 @@ class CandidatoDAO {
 
          IConexaoBD conexaoBD = ConexaoBDFactory.getConexaoBD("PostgreSQL")
 
-        String inserir = "INSERT INTO Candidatos(nome, sobrenome, cpf, email, data_nascimento, senha, descricao_pessoal, pais, cep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+         String inserir = "INSERT INTO Candidatos(nome, sobrenome, cpf, email, data_nascimento, senha, descricao_pessoal, pais, cep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
-        try{
+         try{
 
             conexaoBD.conectar()
 
@@ -36,11 +36,11 @@ class CandidatoDAO {
             salvar.close()
             conexaoBD.desconectar()
 
-        }catch (Exception e){
+         }catch (Exception e){
 
             e.printStackTrace()
 
-        }
+         }
 
     }
 
@@ -50,22 +50,29 @@ class CandidatoDAO {
 
         String buscar = "SELECT * FROM Candidatos WHERE cpf=?"
 
-        conexaoBD.conectar()
+        try {
+            conexaoBD.conectar()
 
-        PreparedStatement candidato= conexaoBD.conn.prepareStatement(
-                buscar,
-                ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY
-        )
-        candidato.setString(1, cpf)
-        ResultSet result=candidato.executeQuery()
+            PreparedStatement candidato= conexaoBD.conn.prepareStatement(
+                    buscar,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY
+            )
+            candidato.setString(1, cpf)
+            ResultSet result=candidato.executeQuery()
 
-        result.last()
-        boolean busca=result.getRow()
+            result.last()
+            boolean busca=result.getRow()
 
-        conexaoBD.desconectar()
+            conexaoBD.desconectar()
 
-        return busca
+            return busca
+
+        } catch(Exception e) {
+
+            e.printStackTrace()
+        }
+
     }
 
     static void alterar(String email, String senha, String descricaoPessoal, String pais, String cep, String cpf){

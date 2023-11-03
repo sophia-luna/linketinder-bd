@@ -1,9 +1,7 @@
 package linketinder.projeto.gradle
 
 import linketinder.projeto.gradle.DAO.CandidatoDAO
-import linketinder.projeto.gradle.DAO.EmpresaDAO
 import linketinder.projeto.gradle.Model.Candidato
-import linketinder.projeto.gradle.Model.Empresa
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import groovy.test.GroovyTestCase

@@ -46,22 +46,29 @@ class VagaDAO {
 
         String buscar="SELECT * FROM Vagas WHERE id=?"
 
-        ConexaoBD.conectar()
+        try{
 
-        PreparedStatement vaga= ConexaoBD.conn.prepareStatement(
-                buscar,
-                ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY
-        )
-        vaga.setString(1, id)
-        ResultSet result=vaga.executeQuery()
+            ConexaoBD.conectar()
 
-        result.last()
-        int quantidade=result.getRow()
+            PreparedStatement vaga= ConexaoBD.conn.prepareStatement(
+                    buscar,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY
+            )
+            vaga.setString(1, id)
+            ResultSet result=vaga.executeQuery()
 
-        ConexaoBD.desconectar()
+            result.last()
+            int quantidade=result.getRow()
 
-        return quantidade
+            ConexaoBD.desconectar()
+
+            return quantidade
+
+        } catch(Exception e) {
+
+            e.printStackTrace()
+        }
 
     }
 
