@@ -4,6 +4,7 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import linketinder.projeto.gradle.DAO.CandidatoDAO
 import linketinder.projeto.gradle.Model.Candidato
+import linketinder.projeto.gradle.Model.Empresa
 
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServlet
@@ -50,7 +51,7 @@ class CandidatoController extends HttpServlet{
             String pais = json.pais
             String cep = json.cep
 
-            Candidato candidato = new Candidato(nome, sobrenome, cpf, email, dataNascimento, senha, descricaoPessoal, pais, cep)
+            Empresa candidato = new Candidato(nome, sobrenome, cpf, email, dataNascimento, senha, descricaoPessoal, pais, cep)
 
             Class.forName("org.postgresql.Driver")
             CandidatoController.cadastrar(candidato)
