@@ -3,8 +3,6 @@
  */
 package linketinder.projeto.gradle
 
-import linketinder.projeto.gradle.DAO.CurtidasCandidatoDAO
-import linketinder.projeto.gradle.DAO.CurtidasEmpresaDAO
 import linketinder.projeto.gradle.Utils.Menu
 import linketinder.projeto.gradle.View.CandidatoView
 import linketinder.projeto.gradle.View.CompetenciaView

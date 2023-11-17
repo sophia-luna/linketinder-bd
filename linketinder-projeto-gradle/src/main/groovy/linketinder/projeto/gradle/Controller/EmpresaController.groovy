@@ -3,6 +3,7 @@ package linketinder.projeto.gradle.Controller
 import linketinder.projeto.gradle.DAO.EmpresaDAO
 import linketinder.projeto.gradle.Model.Empresa
 
+
 class EmpresaController {
 
     static void criar(Empresa empresa){

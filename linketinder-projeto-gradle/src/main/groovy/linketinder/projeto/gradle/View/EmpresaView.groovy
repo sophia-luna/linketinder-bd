@@ -29,7 +29,7 @@ class EmpresaView {
         print("Descrição da Empresa: ")
         String descricaoEmpresa=System.in.newReader().readLine()
 
-        EmpresaDAO.cadastrar(new Empresa(nome, cnpj, email, senha, descricaoEmpresa, pais, cep))
+        EmpresaController.criar(new Empresa(nome, cnpj, email, senha, descricaoEmpresa, pais, cep))
 
     }
 
